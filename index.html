@@ -333,7 +333,7 @@
       </div>
 
       <div class="actions">
-        <button type="submit" class="btn-primary btn-block">Submit order (test)</button>
+        <button type="submit" class="btn-primary btn-block">Submit order</button>
         <div id="formMessage"></div>
       </div>
     </form>
@@ -704,7 +704,7 @@
         orderTotalEl.textContent = "Estimated total: " + formatPrice(total);
       }
 
-      // --- SUBMIT (test mode) ---
+      // --- SUBMIT ---
       var form = document.getElementById("orderForm");
       var messageEl = document.getElementById("formMessage");
       form.addEventListener("submit", function (e) {
@@ -874,3 +874,4 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
