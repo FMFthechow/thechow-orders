@@ -339,15 +339,38 @@ k<!DOCTYPE html>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-	   // Read ?room=... from URL and pre-select room
-   var params = new URLSearchParams(window.location.search);
-   var roomFromUrl = params.get("room");
-   if (roomFromUrl) {
-     var roomSelect = document.getElementById("roomNumber");
-     roomSelect.value = roomFromUrl;
-     roomSelect.disabled = true; // lock the room so guest can't change it
-   }
+document.addEventListener("DOMContentLoaded", function () {
+
+      // Decode ?key=... → room number
+      function decodeRoomKey(key) {
+        var map = {
+          "A92X1": "1",
+          "QK33M": "2",
+          "Z811N": "3",
+          "L9T20": "4",
+          "F2P6B": "5",
+          "W93ZQ": "6",
+          "JQ71F": "7",
+          "HB82M": "8",
+          "DR55P": "9",
+          "MT09W": "10",
+          "XZ41E": "11",
+          "PQ72Z": "12",
+          "B44NM": "13",
+          "K29TR": "14"
+        };
+        return map[key] || null;
+      }
+
+      // Read ?key=... from URL and pre-select room
+      var params = new URLSearchParams(window.location.search);
+      var key = params.get("key");
+      var roomFromUrl = key ? decodeRoomKey(key) : null;
+      if (roomFromUrl) {
+        var roomSelect = document.getElementById("roomNumber");
+        roomSelect.value = roomFromUrl;
+        roomSelect.disabled = true; // lock the room so guest can't change it
+      }
 
       // --- PRICES (EUR) ---
       var HOTEL_PRICE = 19.90;
@@ -873,6 +896,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
