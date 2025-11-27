@@ -15,7 +15,6 @@ k<!DOCTYPE html>
 
     * {
       box-sizing: border-box;
-	  height: auto;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
@@ -49,7 +48,28 @@ k<!DOCTYPE html>
       color: #555;
       margin-bottom: 18px;
     }
+    .lang-switch {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+      color: #555;
+    }
 
+    .lang-switch select {
+      padding: 4px 6px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+
+
+
+
+
+	  
     .section-title {
       margin: 22px 0 8px;
       font-size: 1.05rem;
@@ -200,15 +220,26 @@ k<!DOCTYPE html>
 </head>
 <body>
   <div class="page">
-    <h1>Breakfast Order</h1>
-    <div class="subtitle">
+    <div class="lang-switch">
+      <span>Language:</span>
+      <select id="langSelect">
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+        <option value="es">Español</option>
+        <option value="it">Italiano</option>
+        <option value="fr">Français</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
+
+    <h1 id="t_title">Breakfast Order</h1>
+    <div class="subtitle" id="t_subtitle">
       Breakfast will be delivered to your room<br/> 
-	  from THE CHOW (next to your hotel).<br/>
+      from THE CHOW (next to your hotel).<br/>
       Please check your room number and select your items.<br/>
       Estimated delivery: <b>15–20 minutes</b>.
     </div>
-
-    <form id="orderForm">
+	  <form id="orderForm">
       <!-- Guest info -->
       <div class="section-title">Guest information</div>
       <div class="field-row">
@@ -341,6 +372,84 @@ k<!DOCTYPE html>
 
   <script>
 document.addEventListener("DOMContentLoaded", function () {
+
+      // --- LANGUAGE SETUP (title + subtitle) ---
+      var translations = {
+        en: {
+          title: "Breakfast Order",
+          subtitle:
+            "Breakfast will be delivered to your room<br/>" +
+            "from THE CHOW (next to your hotel).<br/>" +
+            "Please check your room number and select your items.<br/>" +
+            "Estimated delivery: <b>15–20 minutes</b>."
+        },
+        de: {
+          title: "Frühstücksbestellung",
+          subtitle:
+            "Das Frühstück wird auf Ihr Zimmer geliefert<br/>" +
+            "von THE CHOW (direkt neben Ihrem Hotel).<br/>" +
+            "Bitte prüfen Sie Ihre Zimmernummer und wählen Sie Ihre Speisen.<br/>" +
+            "Voraussichtliche Lieferzeit: <b>15–20 Minuten</b>."
+        },
+        es: {
+          title: "Pedido de desayuno",
+          subtitle:
+            "El desayuno se entregará en su habitación<br/>" +
+            "por THE CHOW (al lado de su hotel).<br/>" +
+            "Por favor, compruebe su número de habitación y seleccione sus productos.<br/>" +
+            "Tiempo estimado de entrega: <b>15–20 minutos</b>."
+        },
+        it: {
+          title: "Ordine per la colazione",
+          subtitle:
+            "La colazione verrà consegnata in camera<br/>" +
+            "da THE CHOW (accanto al vostro hotel).<br/>" +
+            "Controllate il numero della vostra camera e scegliete gli articoli.<br/>" +
+            "Tempo di consegna stimato: <b>15–20 minuti</b>."
+        },
+        fr: {
+          title: "Commande de petit-déjeuner",
+          subtitle:
+            "Le petit-déjeuner sera livré dans votre chambre<br/>" +
+            "par THE CHOW (à côté de votre hôtel).<br/>" +
+            "Veuillez vérifier votre numéro de chambre et sélectionner vos articles.<br/>" +
+            "Délai de livraison estimé : <b>15–20 minutes</b>."
+        },
+        ar: {
+          title: "طلب الفطور",
+          subtitle:
+            "سيتم توصيل الفطور إلى غرفتك<br/>" +
+            "من THE CHOW (بجوار الفندق).<br/>" +
+            "يرجى التأكد من رقم الغرفة واختيار الأصناف المطلوبة.<br/>" +
+            "الوقت المتوقع للتوصيل: <b>١٥–٢٠ دقيقة</b>."
+        }
+      };
+
+      var langSelect = document.getElementById("langSelect");
+      var titleEl = document.getElementById("t_title");
+      var subtitleEl = document.getElementById("t_subtitle");
+
+      function applyLanguage(lang) {
+        var t = translations[lang] || translations.en;
+        titleEl.textContent = t.title;
+        subtitleEl.innerHTML = t.subtitle;
+
+        if (lang === "ar") {
+          document.documentElement.lang = "ar";
+          document.body.style.direction = "rtl";
+        } else {
+          document.documentElement.lang = lang;
+          document.body.style.direction = "ltr";
+        }
+      }
+
+      langSelect.addEventListener("change", function () {
+        applyLanguage(this.value);
+      });
+
+      // default language
+      applyLanguage("en");
+
 
       // Decode ?key=... → room number
       function decodeRoomKey(key) {
@@ -897,6 +1006,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
