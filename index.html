@@ -317,10 +317,10 @@
       </div>
 
       <!-- ORDER TOTAL -->
-      <div class="section-title">Order total</div>
+      <div class="section-title">Total order price:</div>
       <div class="field-row">
         <div class="field">
-          <div id="orderTotal" class="total-line">Estimated total: €0.00</div>
+          <div id="orderTotal" class="total-line"> €0.00</div>
         </div>
       </div>
 
@@ -701,7 +701,7 @@
           }
         }
 
-        orderTotalEl.textContent = "Estimated total: " + formatPrice(total);
+        orderTotalEl.textContent = " " + formatPrice(total);
       }
 
       // --- SUBMIT ---
@@ -820,7 +820,7 @@
     text += "Notes / Allergies:\n" + notes + "\n\n";
   }
 
-  var totalText = orderTotalEl.textContent || "Estimated total: €0.00";
+  var totalText = orderTotalEl.textContent || "€0.00";
   text += totalText + "\n";
   text += "-- End of order --";
 
@@ -874,4 +874,5 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
