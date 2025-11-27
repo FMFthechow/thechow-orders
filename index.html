@@ -376,53 +376,101 @@ document.addEventListener("DOMContentLoaded", function () {
       // --- LANGUAGE SETUP (title + subtitle) ---
       var translations = {
         en: {
-          title: "Breakfast Order",
-          subtitle:
-            "Breakfast will be delivered to your room<br/>" +
-            "from THE CHOW (next to your hotel).<br/>" +
-            "Please check your room number and select your items.<br/>" +
-            "Estimated delivery: <b>15–20 minutes</b>."
-        },
+  title: "Breakfast Order",
+  subtitle:
+    "Breakfast will be delivered to your room<br/>" +
+    "from THE CHOW (next to your hotel).<br/>" +
+    "Please check your room number and select your items.<br/>" +
+    "Estimated delivery: <b>15–20 minutes</b>.",
+  guestInfo: "Guest information",
+  hotelTitle: "Hotel Breakfast Menu – €19.90",
+  contTitle: "Continental Light Breakfast – €7.90",
+  matchaTitle: "Matcha & Cookie Set",
+  extrasTitle: "Extras",
+  totalTitle: "Total order price:",
+  notesTitle: "Notes / Allergies"
+},
+
         de: {
-          title: "Frühstücksbestellung",
-          subtitle:
-            "Das Frühstück wird auf Ihr Zimmer geliefert<br/>" +
-            "von THE CHOW (direkt neben Ihrem Hotel).<br/>" +
-            "Bitte prüfen Sie Ihre Zimmernummer und wählen Sie Ihre Speisen.<br/>" +
-            "Voraussichtliche Lieferzeit: <b>15–20 Minuten</b>."
-        },
+  title: "Frühstücksbestellung",
+  subtitle:
+    "Das Frühstück wird auf Ihr Zimmer geliefert<br/>" +
+    "von THE CHOW (direkt neben Ihrem Hotel).<br/>" +
+    "Bitte prüfen Sie Ihre Zimmernummer und wählen Sie Ihre Speisen.<br/>" +
+    "Voraussichtliche Lieferzeit: <b>15–20 Minuten</b>.",
+  guestInfo: "Gästeinformationen",
+  hotelTitle: "Hotel-Frühstücksmenü – 19,90 €",
+  contTitle: "Kontinentales leichtes Frühstück – 7,90 €",
+  matchaTitle: "Matcha & Keks Set",
+  extrasTitle: "Extras",
+  totalTitle: "Gesamtbestellpreis:",
+  notesTitle: "Hinweise / Allergien"
+},
+
         es: {
-          title: "Pedido de desayuno",
-          subtitle:
-            "El desayuno se entregará en su habitación<br/>" +
-            "por THE CHOW (al lado de su hotel).<br/>" +
-            "Por favor, compruebe su número de habitación y seleccione sus productos.<br/>" +
-            "Tiempo estimado de entrega: <b>15–20 minutos</b>."
-        },
+  title: "Pedido de desayuno",
+  subtitle:
+    "El desayuno se entregará en su habitación<br/>" +
+    "por THE CHOW (al lado de su hotel).<br/>" +
+    "Por favor, compruebe su número de habitación y seleccione sus productos.<br/>" +
+    "Tiempo estimado de entrega: <b>15–20 minutos</b>.",
+  guestInfo: "Información del huésped",
+  hotelTitle: "Menú de desayuno del hotel – 19,90 €",
+  contTitle: "Desayuno continental ligero – 7,90 €",
+  matchaTitle: "Set de matcha y galleta",
+  extrasTitle: "Extras",
+  totalTitle: "Precio total del pedido:",
+  notesTitle: "Notas / Alergias"
+},
+
         it: {
-          title: "Ordine per la colazione",
-          subtitle:
-            "La colazione verrà consegnata in camera<br/>" +
-            "da THE CHOW (accanto al vostro hotel).<br/>" +
-            "Controllate il numero della vostra camera e scegliete gli articoli.<br/>" +
-            "Tempo di consegna stimato: <b>15–20 minuti</b>."
-        },
+  title: "Ordine per la colazione",
+  subtitle:
+    "La colazione verrà consegnata in camera<br/>" +
+    "da THE CHOW (accanto al vostro hotel).<br/>" +
+    "Controllate il numero della vostra camera e scegliete gli articoli.<br/>" +
+    "Tempo di consegna stimato: <b>15–20 minuti</b>.",
+  guestInfo: "Informazioni ospite",
+  hotelTitle: "Menu colazione dell'hotel – 19,90 €",
+  contTitle: "Colazione continentale leggera – 7,90 €",
+  matchaTitle: "Set matcha e biscotto",
+  extrasTitle: "Extra",
+  totalTitle: "Prezzo totale dell'ordine:",
+  notesTitle: "Note / Allergie"
+},
+
         fr: {
-          title: "Commande de petit-déjeuner",
-          subtitle:
-            "Le petit-déjeuner sera livré dans votre chambre<br/>" +
-            "par THE CHOW (à côté de votre hôtel).<br/>" +
-            "Veuillez vérifier votre numéro de chambre et sélectionner vos articles.<br/>" +
-            "Délai de livraison estimé : <b>15–20 minutes</b>."
-        },
+  title: "Commande de petit-déjeuner",
+  subtitle:
+    "Le petit-déjeuner sera livré dans votre chambre<br/>" +
+    "par THE CHOW (à côté de votre hôtel).<br/>" +
+    "Veuillez vérifier votre numéro de chambre et sélectionner vos articles.<br/>" +
+    "Délai de livraison estimé : <b>15–20 minutes</b>.",
+  guestInfo: "Informations client",
+  hotelTitle: "Menu petit-déjeuner de l'hôtel – 19,90 €",
+  contTitle: "Petit-déjeuner continental léger – 7,90 €",
+  matchaTitle: "Formule matcha & cookie",
+  extrasTitle: "Extras",
+  totalTitle: "Prix total de la commande :",
+  notesTitle: "Remarques / Allergies"
+},
+
         ar: {
-          title: "طلب الفطور",
-          subtitle:
-            "سيتم توصيل الفطور إلى غرفتك<br/>" +
-            "من THE CHOW (بجوار الفندق).<br/>" +
-            "يرجى التأكد من رقم الغرفة واختيار الأصناف المطلوبة.<br/>" +
-            "الوقت المتوقع للتوصيل: <b>١٥–٢٠ دقيقة</b>."
-        }
+  title: "طلب الفطور",
+  subtitle:
+    "سيتم توصيل الفطور إلى غرفتك<br/>" +
+    "من THE CHOW (بجوار الفندق).<br/>" +
+    "يرجى التأكد من رقم الغرفة واختيار الأصناف المطلوبة.<br/>" +
+    "الوقت المتوقع للتوصيل: <b>١٥–٢٠ دقيقة</b>.",
+  guestInfo: "معلومات النزيل",
+  hotelTitle: "قائمة فطور الفندق – ١٩٫٩٠ €",
+  contTitle: "فطور كونتيننتال خفيف – ٧٫٩٠ €",
+  matchaTitle: "مجموعة ماتشا مع كوكي",
+  extrasTitle: "إضافات",
+  totalTitle: "إجمالي قيمة الطلب:",
+  notesTitle: "ملاحظات / حساسية"
+}
+
       };
 
       var langSelect = document.getElementById("langSelect");
@@ -433,6 +481,14 @@ document.addEventListener("DOMContentLoaded", function () {
         var t = translations[lang] || translations.en;
         titleEl.textContent = t.title;
         subtitleEl.innerHTML = t.subtitle;
+  // Section titles
+  document.getElementById("t_guest_info").textContent  = t.guestInfo;
+  document.getElementById("t_hotel_title").textContent = t.hotelTitle;
+  document.getElementById("t_cont_title").textContent  = t.contTitle;
+  document.getElementById("t_matcha_title").textContent = t.matchaTitle;
+  document.getElementById("t_extras_title").textContent = t.extrasTitle;
+  document.getElementById("t_total_title").textContent  = t.totalTitle;
+  document.getElementById("t_notes_title").textContent  = t.notesTitle;
 
         if (lang === "ar") {
           document.documentElement.lang = "ar";
@@ -1006,6 +1062,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
