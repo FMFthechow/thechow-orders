@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>THE CHOW – Breakfast Order</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f3f3f3;
+      --card: #ffffff;
+      --accent: #222222;
+      --border: #dddddd;
+      --disabled: #e6e6e6;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .page {
+      max-width: 900px;
+      width: 100%;
+      background: var(--card);
+      border-radius: 12px;
+      padding: 20px 18px 28px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 1.6rem;
+      text-align: center;
+      color: var(--accent);
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      margin: 22px 0 8px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent);
+      border-left: 4px solid var(--accent);
+      padding-left: 8px;
+    }
+
+    .field-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      flex: 1 1 140px;
+      min-width: 140px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      margin-bottom: 4px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 7px 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 0.86rem;
+      outline: none;
+    }
+
+    select:focus,
+    input:focus,
+    textarea:focus {
+      border-color: var(--accent);
+    }
+
+    select:disabled {
+      background: var(--disabled);
+      color: #888;
+      border-color: #c8c8c8;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .note {
+      font-size: 0.8rem;
+      color: #777;
+      margin-bottom: 6px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      background: #fafafa;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .pill {
+      font-size: 0.72rem;
+      background: #f0e6d8;
+      color: #664400;
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+
+    button {
+      border-radius: 6px;
+      border: none;
+      padding: 8px 12px;
+      font-size: 0.86rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #eeeeee;
+      color: #333333;
+    }
+
+    .btn-block {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .actions {
+      margin-top: 20px;
+    }
+
+    .error {
+      color: #b00020;
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    .success {
+      color: #0a7b13;
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+
+    .total-line {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #222;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #f1f1f1;
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 16px 12px 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>THE CHOW – Breakfast Order</h1>
+    <div class="subtitle">
+      Breakfast delivered to your room from THE CHOW (next to the hotel).<br/>
+      Please choose your room number and select your items.<br/>
+      Estimated delivery: <b>15–20 minutes</b>.
+    </div>
+
+    <form id="orderForm">
+      <!-- Guest info -->
+      <div class="section-title">Guest information</div>
+      <div class="field-row">
+        <div class="field">
+          <label>Room number <span style="color:#b00020">*</span></label>
+          <select id="roomNumber" required>
+            <option value="">Select room</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+            <option>5</option><option>6</option><option>7</option><option>8</option>
+            <option>9</option><option>10</option><option>11</option><option>12</option>
+            <option>13</option><option>14</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Guest name <span style="color:#b00020">*</span></label>
+          <input type="text" id="guestName" required placeholder="Your name" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Preferred delivery time <span style="color:#b00020">*</span></label>
+          <select id="deliveryOption" required>
+            <option value="">Choose...</option>
+            <option value="asap">As soon as possible</option>
+            <option value="1h">In one hour</option>
+            <option value="specific">At a specific time</option>
+          </select>
+        </div>
+        <div class="field" id="specificTimeField" style="display:none;">
+          <label>Specific date &amp; time</label>
+          <input type="datetime-local" id="specificDateTime" />
+        </div>
+      </div>
+
+      <!-- HOTEL BREAKFAST -->
+      <div class="section-title">Hotel Breakfast Menu – €19.90</div>
+      <div class="note">
+        Fine Swiss cheese slices, smooth cream cheese and premium turkey ham, egg of choice, fruit, granola bowl,
+        juice, butter, marmalade & honey, flaky butter croissant and a hot drink of choice.
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Number of Hotel Breakfast sets</label>
+          <select id="hotelQty">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+      <div id="hotelSets"></div>
+
+      <!-- CONTINENTAL LIGHT BREAKFAST -->
+      <div class="section-title">Continental Light Breakfast – €9.90</div>
+      <div class="note">
+        Hot drink of choice and a croissant.
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Number of Continental Light sets</label>
+          <select id="contQty">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+      <div id="contSets"></div>
+
+      <!-- MATCHA & COOKIE – DYNAMIC -->
+      <div class="section-title">Matcha & Cookie Set</div>
+      <div class="note">
+        Strawberry, raspberry, coconut and mango matcha are served cold. Matcha Latte can be warm or cold.
+        All matcha drinks include your choice of milk and a cookie.
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Number of Matcha & Cookie sets</label>
+          <select id="matchaQty">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+      <div id="matchaSets"></div>
+
+      <!-- EXTRAS – DYNAMIC VIA BUTTON -->
+      <div class="section-title">Extras</div>
+      <div class="note">
+        Tap "+ Add extra" to add as many extras as you like (for example 5× eggs, 5× croissants, etc.).<br/>
+        Additional egg (€2), additional croissant (€2.50), additional juice (€2.50),
+        cheese portion (€2), turkey ham portion (€2).
+      </div>
+
+      <div id="extrasContainer"></div>
+      <div class="field-row">
+        <div class="field">
+          <button type="button" id="addExtraBtn" class="btn-secondary">+ Add extra item</button>
+        </div>
+      </div>
+
+      <!-- ORDER TOTAL -->
+      <div class="section-title">Order total</div>
+      <div class="field-row">
+        <div class="field">
+          <div id="orderTotal" class="total-line">Estimated total: €0.00</div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="section-title">Notes / Allergies</div>
+      <div class="field-row">
+        <div class="field">
+          <textarea id="notes" placeholder="Allergies, special instructions, no sugar, etc."></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn-primary btn-block">Submit order (test)</button>
+        <div id="formMessage"></div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+	   // Read ?room=... from URL and pre-select room
+   var params = new URLSearchParams(window.location.search);
+   var roomFromUrl = params.get("room");
+   if (roomFromUrl) {
+     var roomSelect = document.getElementById("roomNumber");
+     roomSelect.value = roomFromUrl;
+     roomSelect.disabled = true; // lock the room so guest can't change it
+   }
+
+      // --- PRICES (EUR) ---
+      var HOTEL_PRICE = 19.90;
+      var CONT_PRICE  = 9.90;
+      var MATCHA_PRICE = 9.90; // adjust if needed
+
+      var EXTRA_PRICES = {
+        "Additional Egg": 2.00,
+        "Additional Croissant": 2.50,
+        "Additional Juice": 2.50,
+        "Cheese Portion": 2.00,
+        "Turkey Ham Portion": 2.00
+      };
+
+      function formatPrice(v) {
+        var n = isNaN(v) ? 0 : v;
+        return "€" + n.toFixed(2);
+      }
+
+      var milkDrinks = ["Cappuccino", "Flat White", "Café Latte"];
+
+      var hotDrinks = ["Espresso", "Cappuccino", "Flat White", "Café Latte", "Black Tea"];
+      var eggOptions = ["Eggs Benedict", "Boiled Egg", "Scrambled Egg", "No egg"];
+      var milkOptions = ["Regular", "Oat Milk", "Lactose-Free Milk", "Soy Milk"];
+      var croissantOptions = ["Butter Croissant", "Pistachio Croissant", "Chocolate Croissant", "Lotus Croissant"];
+      var matchaOptions = [
+        "Strawberry Matcha (cold)",
+        "Raspberry Matcha (cold)",
+        "Coconut Matcha (cold)",
+        "Mango Matcha (cold)",
+        "Matcha Latte"
+      ];
+      var cookieOptions = [
+        "Pistachio Cookie",
+        "Matcha Cookie",
+        "Ube Cookie",
+        "Snickers Cookie",
+        "Mint Snickers Cookie",
+        "Orange Cookie",
+        "Cookie Special"
+      ];
+      var extrasList = [
+        "Additional Egg – €2",
+        "Additional Croissant – €2.50",
+        "Additional Juice – €2.50",
+        "Cheese Portion – €2",
+        "Turkey Ham Portion – €2"
+      ];
+
+      var hotelQtySelect = document.getElementById("hotelQty");
+      var contQtySelect = document.getElementById("contQty");
+      var matchaQtySelect = document.getElementById("matchaQty");
+      var hotelContainer = document.getElementById("hotelSets");
+      var contContainer = document.getElementById("contSets");
+      var matchaContainer = document.getElementById("matchaSets");
+      var extrasContainer = document.getElementById("extrasContainer");
+      var addExtraBtn = document.getElementById("addExtraBtn");
+      var orderTotalEl = document.getElementById("orderTotal");
+
+      function createSelect(options) {
+        var s = document.createElement("select");
+        var empty = document.createElement("option");
+        empty.value = "";
+        empty.textContent = "––";
+        s.appendChild(empty);
+        for (var i = 0; i < options.length; i++) {
+          var opt = document.createElement("option");
+          opt.value = options[i];
+          opt.textContent = options[i];
+          s.appendChild(opt);
+        }
+        return s;
+      }
+
+      function wrapField(labelText, element) {
+        var div = document.createElement("div");
+        div.className = "field";
+        var label = document.createElement("label");
+        label.textContent = labelText;
+        div.appendChild(label);
+        div.appendChild(element);
+        return div;
+      }
+
+      function handleDrinkChange(drinkSelect, milkSelect) {
+        var drink = drinkSelect.value;
+        if (milkDrinks.indexOf(drink) !== -1) {
+          milkSelect.disabled = false;
+        } else {
+          milkSelect.disabled = true;
+          milkSelect.value = "";
+        }
+      }
+
+      // --- HOTEL SETS ---
+      function createHotelCard(index) {
+        var card = document.createElement("div");
+        card.className = "card";
+        var header = document.createElement("div");
+        header.className = "card-header";
+        header.innerHTML = '<span>Hotel Breakfast Set #' + index + '</span><span class="pill">€19.90</span>';
+        card.appendChild(header);
+
+        var row = document.createElement("div");
+        row.className = "field-row";
+
+        var eggSelect = createSelect(eggOptions);
+        eggSelect.id = "hotelEgg" + index;
+
+        var drinkSelect = createSelect(hotDrinks);
+        drinkSelect.id = "hotelDrink" + index;
+
+        var milkSelect = createSelect(milkOptions);
+        milkSelect.id = "hotelMilk" + index;
+
+        drinkSelect.addEventListener("change", function () {
+          handleDrinkChange(drinkSelect, milkSelect);
+        });
+        handleDrinkChange(drinkSelect, milkSelect);
+
+        row.appendChild(wrapField("Egg type", eggSelect));
+        row.appendChild(wrapField("Hot drink", drinkSelect));
+        row.appendChild(wrapField("Milk type (if applicable)", milkSelect));
+        card.appendChild(row);
+        return card;
+      }
+
+      function updateHotelSets() {
+        var qty = parseInt(hotelQtySelect.value, 10) || 0;
+        hotelContainer.innerHTML = "";
+        for (var i = 1; i <= qty; i++) {
+          hotelContainer.appendChild(createHotelCard(i));
+        }
+        updateTotals();
+      }
+      hotelQtySelect.addEventListener("change", updateHotelSets);
+      updateHotelSets();
+
+      // --- CONTINENTAL SETS ---
+      function createContCard(index) {
+        var card = document.createElement("div");
+        card.className = "card";
+        var header = document.createElement("div");
+        header.className = "card-header";
+        header.innerHTML = '<span>Continental Breakfast Set #' + index + '</span><span class="pill">€9.90</span>';
+        card.appendChild(header);
+
+        var row = document.createElement("div");
+        row.className = "field-row";
+
+        var drinkSelect = createSelect(hotDrinks);
+        drinkSelect.id = "contDrink" + index;
+
+        var milkSelect = createSelect(milkOptions);
+        milkSelect.id = "contMilk" + index;
+
+        drinkSelect.addEventListener("change", function () {
+          handleDrinkChange(drinkSelect, milkSelect);
+        });
+        handleDrinkChange(drinkSelect, milkSelect);
+
+        var croissantSelect = createSelect(croissantOptions);
+        croissantSelect.id = "contCroissant" + index;
+
+        row.appendChild(wrapField("Hot drink", drinkSelect));
+        row.appendChild(wrapField("Milk type (if applicable)", milkSelect));
+        row.appendChild(wrapField("Croissant type", croissantSelect));
+        card.appendChild(row);
+        return card;
+      }
+
+      function updateContSets() {
+        var qty = parseInt(contQtySelect.value, 10) || 0;
+        contContainer.innerHTML = "";
+        for (var i = 1; i <= qty; i++) {
+          contContainer.appendChild(createContCard(i));
+        }
+        updateTotals();
+      }
+      contQtySelect.addEventListener("change", updateContSets);
+      updateContSets();
+
+      // --- MATCHA & COOKIE SETS ---
+      function createMatchaCard(index) {
+        var card = document.createElement("div");
+        card.className = "card";
+        var header = document.createElement("div");
+        header.className = "card-header";
+        header.innerHTML = '<span>Matcha & Cookie Set #' + index + '</span><span class="pill">€9.90</span>';
+        card.appendChild(header);
+
+        var row1 = document.createElement("div");
+        row1.className = "field-row";
+
+        var matchaSelect = createSelect(matchaOptions);
+        matchaSelect.id = "matchaType" + index;
+
+        var tempSelect = createSelect(["Warm", "Cold"]);
+        tempSelect.id = "matchaTemp" + index;
+
+        var milkSelect = createSelect(milkOptions);
+        milkSelect.id = "matchaMilk" + index;
+
+        var tempField = wrapField("Temperature (Matcha Latte only)", tempSelect);
+
+        function syncTempVisibility() {
+          if (matchaSelect.value === "Matcha Latte") {
+            tempField.style.display = "block";
+          } else {
+            tempField.style.display = "none";
+            tempSelect.value = "";
+          }
+        }
+        matchaSelect.addEventListener("change", syncTempVisibility);
+        syncTempVisibility();
+
+        row1.appendChild(wrapField("Matcha type", matchaSelect));
+        row1.appendChild(tempField);
+        row1.appendChild(wrapField("Milk type", milkSelect));
+
+        var row2 = document.createElement("div");
+        row2.className = "field-row";
+        var cookieSelect = createSelect(cookieOptions);
+        cookieSelect.id = "matchaCookie" + index;
+        row2.appendChild(wrapField("Cookie type", cookieSelect));
+
+        card.appendChild(row1);
+        card.appendChild(row2);
+        return card;
+      }
+
+      function updateMatchaSets() {
+        var qty = parseInt(matchaQtySelect.value, 10) || 0;
+        matchaContainer.innerHTML = "";
+        for (var i = 1; i <= qty; i++) {
+          matchaContainer.appendChild(createMatchaCard(i));
+        }
+        updateTotals();
+      }
+      matchaQtySelect.addEventListener("change", updateMatchaSets);
+      updateMatchaSets();
+
+      // --- EXTRAS (dynamic) ---
+      var extraCounter = 0;
+
+      function createExtraCard(index) {
+        var card = document.createElement("div");
+        card.className = "card extraCard";
+        card.setAttribute("data-index", String(index));
+
+        var header = document.createElement("div");
+        header.className = "card-header";
+        header.innerHTML = '<span>Extra #' + index + '</span><span class="pill">optional</span>';
+        card.appendChild(header);
+
+        var row = document.createElement("div");
+        row.className = "field-row";
+
+        var itemSelect = createSelect(extrasList);
+        itemSelect.id = "extraItem" + index;
+
+        var qtySelect = document.createElement("select");
+        qtySelect.id = "extraQty" + index;
+        var optEmpty = document.createElement("option");
+        optEmpty.value = "";
+        optEmpty.textContent = "–";
+        qtySelect.appendChild(optEmpty);
+        for (var q = 1; q <= 10; q++) {
+          var optQ = document.createElement("option");
+          optQ.value = String(q);
+          optQ.textContent = String(q);
+          qtySelect.appendChild(optQ);
+        }
+
+        var eggSelect = createSelect(eggOptions);
+        eggSelect.id = "extraEgg" + index;
+        var eggField = wrapField("Egg type (for additional egg)", eggSelect);
+
+        function syncEggVisibility() {
+          var val = itemSelect.value || "";
+          if (val.indexOf("Additional Egg") === 0) {
+            eggField.style.display = "block";
+          } else {
+            eggField.style.display = "none";
+            eggSelect.value = "";
+          }
+        }
+        itemSelect.addEventListener("change", function () {
+          syncEggVisibility();
+          updateTotals();
+        });
+        qtySelect.addEventListener("change", function () {
+          updateTotals();
+        });
+        syncEggVisibility();
+
+        row.appendChild(wrapField("Extra item", itemSelect));
+        row.appendChild(wrapField("Quantity", qtySelect));
+        row.appendChild(eggField);
+
+        card.appendChild(row);
+        return card;
+      }
+
+      addExtraBtn.addEventListener("click", function () {
+        extraCounter += 1;
+        extrasContainer.appendChild(createExtraCard(extraCounter));
+        updateTotals();
+      });
+
+      // --- DELIVERY OPTION TOGGLE ---
+      var deliveryOption = document.getElementById("deliveryOption");
+      var specificTimeField = document.getElementById("specificTimeField");
+      deliveryOption.addEventListener("change", function () {
+        if (deliveryOption.value === "specific") {
+          specificTimeField.style.display = "block";
+        } else {
+          specificTimeField.style.display = "none";
+        }
+      });
+
+      // --- TOTALS ---
+      function updateTotals() {
+        var total = 0;
+
+        var hq = parseInt(hotelQtySelect.value, 10) || 0;
+        var cq = parseInt(contQtySelect.value, 10) || 0;
+        var mq = parseInt(matchaQtySelect.value, 10) || 0;
+
+        total += hq * HOTEL_PRICE;
+        total += cq * CONT_PRICE;
+        total += mq * MATCHA_PRICE;
+
+        var extraCards = document.getElementsByClassName("extraCard");
+        for (var i = 0; i < extraCards.length; i++) {
+          var idx = extraCards[i].getAttribute("data-index");
+          var item = (document.getElementById("extraItem" + idx) || {}).value || "";
+          var qty = parseInt((document.getElementById("extraQty" + idx) || {}).value, 10) || 0;
+          if (item && qty) {
+            var key = null;
+            if (item.indexOf("Additional Egg") === 0) key = "Additional Egg";
+            else if (item.indexOf("Additional Croissant") === 0) key = "Additional Croissant";
+            else if (item.indexOf("Additional Juice") === 0) key = "Additional Juice";
+            else if (item.indexOf("Cheese Portion") === 0) key = "Cheese Portion";
+            else if (item.indexOf("Turkey Ham Portion") === 0) key = "Turkey Ham Portion";
+
+            if (key && EXTRA_PRICES[key]) {
+              total += EXTRA_PRICES[key] * qty;
+            }
+          }
+        }
+
+        orderTotalEl.textContent = "Estimated total: " + formatPrice(total);
+      }
+
+      // --- SUBMIT (test mode) ---
+      var form = document.getElementById("orderForm");
+      var messageEl = document.getElementById("formMessage");
+      form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  messageEl.textContent = "";
+  messageEl.className = "";
+
+  var room = document.getElementById("roomNumber").value;
+  var guest = document.getElementById("guestName").value;
+  var deliveryOpt = deliveryOption.value;
+  var deliveryTime = document.getElementById("specificDateTime").value;
+
+  if (!room || !guest || !deliveryOpt) {
+    messageEl.textContent = "Please fill in room, name and delivery time.";
+    messageEl.className = "error";
+    return;
+  }
+  if (deliveryOpt === "specific" && !deliveryTime) {
+    messageEl.textContent = "Please choose a specific date and time.";
+    messageEl.className = "error";
+    return;
+  }
+
+  var text = "THE CHOW – Hotel Breakfast Order\n\n";
+  text += "Room: " + room + "\n";
+  text += "Guest: " + guest + "\n";
+  text += "Delivery: " + (
+    deliveryOpt === "asap"
+      ? "As soon as possible"
+      : deliveryOpt === "1h"
+      ? "In one hour"
+      : "At " + deliveryTime
+  ) + "\n\n";
+
+  // ---------- HOTEL ----------
+  var hotelQty = parseInt(hotelQtySelect.value, 10) || 0;
+  var hotelCount = 0;
+  for (var i = 1; i <= hotelQty; i++) {
+    var egg = (document.getElementById("hotelEgg" + i) || {}).value || "";
+    var drink = (document.getElementById("hotelDrink" + i) || {}).value || "";
+    var milk = (document.getElementById("hotelMilk" + i) || {}).value || "";
+    if (egg || drink || milk) {
+      hotelCount++;
+      if (hotelCount === 1) text += "Hotel Breakfast Menu:\n";
+      text += "  Set #" + i + ": Egg: " + (egg || "-") +
+              ", Drink: " + (drink || "-") +
+              ", Milk: " + (milk || "-") + "\n";
+    }
+  }
+  if (hotelCount > 0) text += "\n";
+
+  // ---------- CONTINENTAL ----------
+  var contQty = parseInt(contQtySelect.value, 10) || 0;
+  var contCount = 0;
+  for (var j = 1; j <= contQty; j++) {
+    var cd = (document.getElementById("contDrink" + j) || {}).value || "";
+    var cm = (document.getElementById("contMilk" + j) || {}).value || "";
+    var cc = (document.getElementById("contCroissant" + j) || {}).value || "";
+    if (cd || cm || cc) {
+      contCount++;
+      if (contCount === 1) text += "Continental Light Breakfast:\n";
+      text += "  Set #" + j + ": Drink: " + (cd || "-") +
+              ", Milk: " + (cm || "-") +
+              ", Croissant: " + (cc || "-") + "\n";
+    }
+  }
+  if (contCount > 0) text += "\n";
+
+  // ---------- MATCHA & COOKIE ----------
+  var matchaQty = parseInt(matchaQtySelect.value, 10) || 0;
+  var matchaCount = 0;
+  for (var k = 1; k <= matchaQty; k++) {
+    var type = (document.getElementById("matchaType" + k) || {}).value || "";
+    var temp = (document.getElementById("matchaTemp" + k) || {}).value || "";
+    var mmilk = (document.getElementById("matchaMilk" + k) || {}).value || "";
+    var cookie = (document.getElementById("matchaCookie" + k) || {}).value || "";
+    if (type || mmilk || cookie) {
+      matchaCount++;
+      if (matchaCount === 1) text += "Matcha & Cookie:\n";
+      text += "  Set #" + k + ": Matcha: " + (type || "-");
+      if (type === "Matcha Latte") {
+        text += " (" + (temp || "-") + ")";
+      }
+      text += ", Milk: " + (mmilk || "-") +
+              ", Cookie: " + (cookie || "-") + "\n";
+    }
+  }
+  if (matchaCount > 0) text += "\n";
+
+  // ---------- EXTRAS ----------
+  var extraCards = document.getElementsByClassName("extraCard");
+  var extraCount = 0;
+  for (var eIdx = 0; eIdx < extraCards.length; eIdx++) {
+    var idx = extraCards[eIdx].getAttribute("data-index");
+    var item = (document.getElementById("extraItem" + idx) || {}).value || "";
+    var qty  = (document.getElementById("extraQty" + idx) || {}).value || "";
+    var eEgg = (document.getElementById("extraEgg" + idx) || {}).value || "";
+    if (item && qty) {
+      extraCount++;
+      if (extraCount === 1) text += "Extras:\n";
+      text += "  " + extraCount + ". " + item + " × " + qty;
+      if (item.indexOf("Additional Egg") === 0) {
+        text += " – Egg type: " + (eEgg || "-");
+      }
+      text += "\n";
+    }
+  }
+  if (extraCount > 0) text += "\n";
+
+  // ---------- NOTES ----------
+  var notes = document.getElementById("notes").value;
+  if (notes) {
+    text += "Notes / Allergies:\n" + notes + "\n\n";
+  }
+
+  var totalText = orderTotalEl.textContent || "Estimated total: €0.00";
+  text += totalText + "\n";
+  text += "-- End of order --";
+
+  // ---------- SEND TO GOOGLE APPS SCRIPT ----------
+  var scriptUrl = "https://script.google.com/macros/s/AKfycbwaYBFm5g2Qe3yVIUkSnlwpgwQP_NzRkYBRagQTO-K6UIrOJomUoXIvdBphnN16ELiBiQ/exec"; // from Apps Script deployment
+
+  messageEl.textContent = "Sending order...";
+  messageEl.className = "";
+
+fetch(scriptUrl, {
+  method: "POST",
+  body: JSON.stringify({
+    room: room,
+    guest: guest,
+    delivery: deliveryOpt === "specific" ? ("specific: " + deliveryTime) : deliveryOpt,
+    orderSummary: text,
+    totalText: totalText
+  })
+})
+
+    .then(function (response) { return response.json(); })
+    .then(function (data) {
+if (data.status === "ok") {
+  messageEl.textContent = "Order sent successfully. Thank you!";
+  messageEl.className = "success";
+
+  // --- Telegram notification (browser-side) ---
+  try {
+    var telegramToken = "8425819760:AAGooJHRkfX6aUEqkyZR0xxTPUs-vRTWzfc";
+    var telegramChatId = "-5080597138";
+    var telegramText =
+      "New breakfast order – Room " + room + " – " + guest + "\n\n" +
+      text;
+
+    var telegramUrl =
+      "https://api.telegram.org/bot" +
+      telegramToken +
+      "/sendMessage?chat_id=" +
+      encodeURIComponent(telegramChatId) +
+      "&text=" +
+      encodeURIComponent(telegramText);
+
+    // Fire-and-forget via Image to avoid CORS issues
+    var img = new Image();
+    img.src = telegramUrl;
+  } catch (e) {
+    console.error("Telegram send error (ignored):", e);
+  }
+
+  alert("Your order has been sent to THE CHOW. Thank you!");
+  // Optional: reset form
+  // form.reset();
+  // updateTotals();
+}
+ else {
+        messageEl.textContent = "There was a problem sending your order. Please contact reception or THE CHOW.";
+        messageEl.className = "error";
+        alert("Error sending order. Please contact reception.");
+      }
+    })
+    .catch(function (err) {
+      console.error("Request error:", err);
+      messageEl.textContent = "There was a problem sending your order. Please contact reception or THE CHOW.";
+      messageEl.className = "error";
+      alert("Error sending order. Please contact reception.");
+    });
+});
+
+
+      // initial total
+      updateTotals();
+    });
+  </script>
+</body>
+</html>
