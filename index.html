@@ -245,7 +245,7 @@ k<!DOCTYPE html>
       <div class="section-title" id="t_guest_info">Guest information</div>
       <div class="field-row">
         <div class="field">
-          <label>Room number <span style="color:#b00020">*</span></label>
+              <label id="t_label_room">Room number <span style="color:#b00020">*</span></label>
           <select id="roomNumber" required>
             <option value="">Select room</option>
             <option>1</option><option>2</option><option>3</option><option>4</option>
@@ -255,15 +255,16 @@ k<!DOCTYPE html>
           </select>
         </div>
         <div class="field">
-          <label>Guest name <span style="color:#b00020">*</span></label>
-          <input type="text" id="guestName" required placeholder="Your name" />
-        </div>
+  <label id="t_label_guest">Guest name <span style="color:#b00020">*</span></label>
+  <input type="text" id="guestName" required placeholder="Your name" />
+</div>
+
       </div>
 
       <div class="field-row">
         <div class="field">
-          <label>Preferred delivery time <span style="color:#b00020">*</span></label>
-          <select id="deliveryOption" required>
+  <label id="t_label_delivery">Preferred delivery time <span style="color:#b00020">*</span></label>
+  <select id="deliveryOption" required>
             <option value="">Choose...</option>
             <option value="asap">As soon as possible</option>
             <option value="1h">In one hour</option>
@@ -271,7 +272,7 @@ k<!DOCTYPE html>
           </select>
         </div>
         <div class="field" id="specificTimeField" style="display:none;">
-          <label>Specific date &amp; time</label>
+            <label id="t_label_specific">Specific date &amp; time</label>
           <input type="datetime-local" id="specificDateTime" />
         </div>
       </div>
@@ -365,9 +366,9 @@ k<!DOCTYPE html>
       </div>
 
       <div class="actions">
-        <button type="submit" class="btn-primary btn-block">Submit order</button>
-        <div id="formMessage"></div>
-      </div>
+  <button type="submit" class="btn-primary btn-block" id="t_btn_submit">Submit order</button>
+  <div id="formMessage"></div>
+</div>
     </form>
   </div>
 
@@ -1063,6 +1064,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
