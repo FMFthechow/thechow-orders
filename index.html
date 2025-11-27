@@ -847,34 +847,12 @@ if (data.status === "ok") {
   messageEl.textContent = "Order sent successfully. Thank you!";
   messageEl.className = "success";
 
-  // --- Telegram notification (browser-side) ---
-  try {
-    var telegramToken = "8425819760:AAGooJHRkfX6aUEqkyZR0xxTPUs-vRTWzfc";
-    var telegramChatId = "-5080597138";
-    var telegramText =
-      "New breakfast order – Room " + room + " – " + guest + "\n\n" +
-      text;
-
-    var telegramUrl =
-      "https://api.telegram.org/bot" +
-      telegramToken +
-      "/sendMessage?chat_id=" +
-      encodeURIComponent(telegramChatId) +
-      "&text=" +
-      encodeURIComponent(telegramText);
-
-    // Fire-and-forget via Image to avoid CORS issues
-    var img = new Image();
-    img.src = telegramUrl;
-  } catch (e) {
-    console.error("Telegram send error (ignored):", e);
-  }
-
   alert("Your order has been sent to THE CHOW. Thank you!");
   // Optional: reset form
   // form.reset();
   // updateTotals();
 }
+
  else {
         messageEl.textContent = "There was a problem sending your order. Please contact reception or THE CHOW.";
         messageEl.className = "error";
