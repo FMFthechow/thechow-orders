@@ -373,6 +373,9 @@ k<!DOCTYPE html>
   </div>
 
   <script>
+	var currentLang = "en";
+var currentTexts = null;
+  
 document.addEventListener("DOMContentLoaded", function () {
 
       // --- LANGUAGE SETUP (title + subtitle) ---
@@ -622,11 +625,15 @@ en: {
       var titleEl = document.getElementById("t_title");
       var subtitleEl = document.getElementById("t_subtitle");
 
-      function applyLanguage(lang) {
-        var t = translations[lang] || translations.en;
-        titleEl.textContent = t.title;
-        subtitleEl.innerHTML = t.subtitle;
-  // Labels
+function applyLanguage(lang) {
+  var t = translations[lang] || translations.en;
+  window.currentLang = lang;        // remember current lang
+  window.currentTexts = t;          // store for submit handler
+
+  titleEl.textContent = t.title;
+  subtitleEl.innerHTML = t.subtitle;
+
+  // Section titles
   document.getElementById("t_guest_info").textContent  = t.guestInfo;
   document.getElementById("t_hotel_title").textContent = t.hotelTitle;
   document.getElementById("t_cont_title").textContent  = t.contTitle;
@@ -635,22 +642,37 @@ en: {
   document.getElementById("t_total_title").textContent  = t.totalTitle;
   document.getElementById("t_notes_title").textContent  = t.notesTitle;
 
-  document.getElementById("t_label_room").childNodes[0].textContent = t.labelRoom + " ";
-  document.getElementById("t_label_guest").childNodes[0].textContent = t.labelGuest + " ";
-  document.getElementById("t_label_delivery").childNodes[0].textContent = t.labelDelivery + " ";
+  // Descriptions
+  document.getElementById("t_hotel_desc").innerHTML  = t.hotelDesc;
+  document.getElementById("t_cont_desc").innerHTML   = t.contDesc;
+  document.getElementById("t_matcha_desc").innerHTML = t.matchaDesc;
+
+  // Labels
+  document.getElementById("t_label_room").childNodes[0].textContent =
+    t.labelRoom + " ";
+  document.getElementById("t_label_guest").childNodes[0].textContent =
+    t.labelGuest + " ";
+  document.getElementById("t_label_delivery").childNodes[0].textContent =
+    t.labelDelivery + " ";
   document.getElementById("t_label_specific").textContent = t.labelSpecific;
 
+  // Placeholders
+  document.getElementById("guestName").placeholder = t.placeName;
+  document.getElementById("notes").placeholder     = t.placeNotes;
+
+  // Button
   document.getElementById("t_btn_submit").textContent = t.btnSubmit;
 
+  // RTL for Arabic
+  if (lang === "ar") {
+    document.documentElement.lang = "ar";
+    document.body.style.direction = "rtl";
+  } else {
+    document.documentElement.lang = lang;
+    document.body.style.direction = "ltr";
+  }
+}
 
-        if (lang === "ar") {
-          document.documentElement.lang = "ar";
-          document.body.style.direction = "rtl";
-        } else {
-          document.documentElement.lang = lang;
-          document.body.style.direction = "ltr";
-        }
-      }
 
       langSelect.addEventListener("change", function () {
         applyLanguage(this.value);
@@ -1052,19 +1074,19 @@ en: {
   e.preventDefault();
   messageEl.textContent = "";
   messageEl.className = "";
-
+var t = window.currentTexts || translations.en;
   var room = document.getElementById("roomNumber").value;
   var guest = document.getElementById("guestName").value;
   var deliveryOpt = deliveryOption.value;
   var deliveryTime = document.getElementById("specificDateTime").value;
 
   if (!room || !guest || !deliveryOpt) {
-    messageEl.textContent = "Please fill in room, name and delivery time.";
+    messageEl.textContent = t.errorMissing;
     messageEl.className = "error";
     return;
   }
   if (deliveryOpt === "specific" && !deliveryTime) {
-    messageEl.textContent = "Please choose a specific date and time.";
+    messageEl.textContent = t.errorSpecific;
     messageEl.className = "error";
     return;
   }
@@ -1168,8 +1190,9 @@ en: {
   // ---------- SEND TO GOOGLE APPS SCRIPT ----------
   var scriptUrl = "https://script.google.com/macros/s/AKfycbwaYBFm5g2Qe3yVIUkSnlwpgwQP_NzRkYBRagQTO-K6UIrOJomUoXIvdBphnN16ELiBiQ/exec"; // from Apps Script deployment
 
-  messageEl.textContent = "Sending order...";
-  messageEl.className = "";
+messageEl.textContent = t.sending;
+messageEl.className = "";
+
 
 fetch(scriptUrl, {
   method: "POST",
@@ -1185,27 +1208,25 @@ fetch(scriptUrl, {
     .then(function (response) { return response.json(); })
     .then(function (data) {
 if (data.status === "ok") {
-  messageEl.textContent = "Order sent successfully. Thank you!";
+  messageEl.textContent = t.success;
   messageEl.className = "success";
 
-  alert("Your order has been sent to THE CHOW. Thank you!");
-  // Optional: reset form
-  // form.reset();
-  // updateTotals();
+  alert(t.alertSuccess);
+  // Optional reset...
+} else {
+  messageEl.textContent = t.errorSend;
+  messageEl.className = "error";
+  alert(t.alertError);
 }
 
- else {
-        messageEl.textContent = "There was a problem sending your order. Please contact reception or THE CHOW.";
-        messageEl.className = "error";
-        alert("Error sending order. Please contact reception.");
-      }
     })
-    .catch(function (err) {
-      console.error("Request error:", err);
-      messageEl.textContent = "There was a problem sending your order. Please contact reception or THE CHOW.";
-      messageEl.className = "error";
-      alert("Error sending order. Please contact reception.");
-    });
+.catch(function (err) {
+  console.error("Request error:", err);
+  messageEl.textContent = t.errorSend;
+  messageEl.className = "error";
+  alert(t.alertError);
+});
+
 });
 
 
@@ -1215,6 +1236,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
