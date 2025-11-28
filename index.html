@@ -12,6 +12,26 @@
       --border: #dddddd;
       --disabled: #e6e6e6;
     }
+.top-logos {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 8px 20px;
+}
+
+.logo {
+  height: 48px; /* adjust size here */
+  object-fit: contain;
+}
+
+.chow-logo {
+  /* optional custom styling */
+}
+
+.hotel-logo {
+  /* optional custom styling */
+}
 
     * {
       box-sizing: border-box;
@@ -25,6 +45,10 @@
       justify-content: center;
       padding: 16px;
     }
+<div class="top-logos">
+  <img src="the-chow-logo.png" alt="THE CHOW Logo" class="logo chow-logo" />
+  <img src="hotel-logo.png" alt="Hotel Logo" class="logo hotel-logo" />
+</div>
 
     .page {
       max-width: 900px;
@@ -1334,6 +1358,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
