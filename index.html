@@ -1136,7 +1136,8 @@ if (matchaSelect.value === "Matcha Latte") {
             }
           }
         }
-
+        // store numeric total globally for validation on submit
+        window.currentOrderTotal = total;
         orderTotalEl.textContent = " " + formatPrice(total);
       }
 
@@ -1166,7 +1167,7 @@ var t = window.currentTexts || translations.en;
       return;
     }
 
-    // Extra safety: ensure chosen time >= min (now + 20 min)
+    // Extra safety: ensure chosen time >= min (now + 30 min)
     if (specificDateTime && specificDateTime.min) {
       var chosen = new Date(deliveryTime);
       var minAllowed = new Date(specificDateTime.min);
@@ -1178,7 +1179,13 @@ var t = window.currentTexts || translations.en;
       }
     }
   }
-
+  // block orders with 0 € total
+  var numericTotal = window.currentOrderTotal || 0;
+  if (numericTotal <= 0) {
+    messageEl.textContent = t.errorNoItems || "Please add at least one item to your order.";
+    messageEl.className = "error";
+    return;
+  }
 
   var text = "THE CHOW – Hotel Breakfast Order\n\n";
   text += "Room: " + room + "\n";
@@ -1340,6 +1347,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
