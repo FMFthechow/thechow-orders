@@ -279,7 +279,7 @@ k<!DOCTYPE html>
 
       <!-- HOTEL BREAKFAST -->
       <div class="section-title" id="t_hotel_title">Hotel Breakfast Menu – €19.90</div>
-      <div class="note">
+      <div class="note" id="t_hotel_desc">
         Fine Swiss cheese slices, smooth cream cheese and premium turkey ham, egg of choice, fruit, granola bowl,
         juice, butter, marmalade & honey, flaky butter croissant, Fresh-Baked Bread and a hot drink of choice.
       </div>
@@ -299,7 +299,7 @@ k<!DOCTYPE html>
 
       <!-- CONTINENTAL LIGHT BREAKFAST -->
       <div class="section-title" id="t_cont_title">Continental Light Breakfast – €7.90</div>
-      <div class="note">
+      <div class="note" id="t_cont_desc">
         Hot drink of choice and a croissant.
       </div>
       <div class="field-row">
@@ -318,7 +318,7 @@ k<!DOCTYPE html>
 
       <!-- MATCHA & COOKIE – DYNAMIC -->
       <div class="section-title" id="t_matcha_title">Matcha & Cookie Set</div>
-      <div class="note">
+      <div class="note" id="t_matcha_desc">
         Strawberry, raspberry, coconut and mango matcha are served cold. Matcha Latte can be warm or cold.
         All matcha drinks include your choice of milk and a cookie.
       </div>
@@ -391,12 +391,30 @@ en: {
   extrasTitle: "Extras",
   totalTitle: "Total order price:",
   notesTitle: "Notes / Allergies",
+  hotelDesc:
+    "Fine Swiss cheese slices, smooth cream cheese and premium turkey ham, egg of choice, fruit, granola bowl, " +
+    "juice, butter, marmalade &amp; honey, flaky butter croissant, fresh-baked bread and a hot drink of choice.",
+  contDesc:
+    "Hot drink of choice and a croissant.",
+  matchaDesc:
+    "Strawberry, raspberry, coconut and mango matcha are served cold. Matcha Latte can be warm or cold. " +
+    "All matcha drinks include your choice of milk and a cookie.",
   labelRoom: "Room number",
   labelGuest: "Guest name",
   labelDelivery: "Preferred delivery time",
   labelSpecific: "Specific date & time",
-  btnSubmit: "Submit order"
+  btnSubmit: "Submit order",
+  placeName: "Your name",
+  placeNotes: "Allergies, special instructions, no sugar, etc.",
+  sending: "Sending order...",
+  success: "Order sent successfully. Thank you!",
+  errorMissing: "Please fill in room, name and delivery time.",
+  errorSpecific: "Please choose a specific date and time.",
+  errorSend: "There was a problem sending your order. Please contact reception or THE CHOW.",
+  alertSuccess: "Your order has been sent to THE CHOW. Thank you!",
+  alertError: "Error sending order. Please contact reception."
 },
+
 
 
         de: {
@@ -413,11 +431,29 @@ en: {
   extrasTitle: "Extras",
   totalTitle: "Gesamtbestellpreis:",
   notesTitle: "Hinweise / Allergien",
+  hotelDesc:
+    "Feine Schweizer Käsescheiben, Rahmkäse und Puten-Schinken in Premiumqualität, Ei nach Wahl, Obst, Granola-Bowl, " +
+    "Saft, Butter, Marmelade &amp; Honig, ein buttriges Croissant, frisches Brot und ein warmes Getränk nach Wahl.",
+  contDesc:
+    "Heißgetränk nach Wahl und ein Croissant.",
+  matchaDesc:
+    "Erdbeer-, Himbeer-, Kokos- und Mango-Matcha werden kalt serviert. Matcha Latte kann warm oder kalt sein. " +
+    "Alle Matcha-Getränke enthalten Milch nach Wahl und einen Keks.",
   labelRoom: "Zimmernummer",
   labelGuest: "Name des Gastes",
   labelDelivery: "Bevorzugte Lieferzeit",
   labelSpecific: "Genaues Datum & Uhrzeit",
-  btnSubmit: "Bestellung senden"
+  btnSubmit: "Bestellung senden",
+  placeName: "Ihr Name",
+  placeNotes: "Allergien, besondere Wünsche, kein Zucker, usw.",
+  sending: "Bestellung wird gesendet...",
+  success: "Bestellung erfolgreich gesendet. Vielen Dank!",
+  errorMissing: "Bitte füllen Sie Zimmernummer, Name und Lieferzeit aus.",
+  errorSpecific: "Bitte wählen Sie ein genaues Datum und eine Uhrzeit.",
+  errorSend: "Es gab ein Problem beim Senden Ihrer Bestellung. Bitte wenden Sie sich an die Rezeption oder THE CHOW.",
+  alertSuccess: "Ihre Bestellung wurde an THE CHOW gesendet. Vielen Dank!",
+  alertError: "Fehler beim Senden der Bestellung. Bitte wenden Sie sich an die Rezeption."
+
 },
 
         es: {
@@ -434,11 +470,29 @@ en: {
   extrasTitle: "Extras",
   totalTitle: "Precio total del pedido:",
   notesTitle: "Notas / Alergias",
+  hotelDesc:
+    "Lonchas de queso suizo fino, queso crema suave y jamón de pavo de primera calidad, huevo a elección, fruta, bol de granola, " +
+    "zumo, mantequilla, mermelada y miel, un cruasán de mantequilla hojaldrado, pan recién horneado y una bebida caliente a elección.",
+  contDesc:
+    "Bebida caliente a elección y un cruasán.",
+  matchaDesc:
+    "Los matchas de fresa, frambuesa, coco y mango se sirven fríos. El matcha latte puede ser caliente o frío. " +
+    "Todas las bebidas de matcha incluyen leche a elección y una galleta.",
   labelRoom: "Número de habitación",
   labelGuest: "Nombre del huésped",
   labelDelivery: "Hora de entrega preferida",
   labelSpecific: "Fecha y hora específicas",
-  btnSubmit: "Enviar pedido"
+  btnSubmit: "Enviar pedido",
+  placeName: "Su nombre",
+  placeNotes: "Alergias, indicaciones especiales, sin azúcar, etc.",
+  sending: "Enviando pedido...",
+  success: "Pedido enviado correctamente. ¡Gracias!",
+  errorMissing: "Por favor, rellene la habitación, el nombre y la hora de entrega.",
+  errorSpecific: "Por favor, elija una fecha y hora específicas.",
+  errorSend: "Hubo un problema al enviar su pedido. Contacte con la recepción o con THE CHOW.",
+  alertSuccess: "Su pedido ha sido enviado a THE CHOW. ¡Gracias!",
+  alertError: "Error al enviar el pedido. Por favor, contacte con la recepción."
+
 
 },
 
@@ -456,11 +510,29 @@ en: {
   extrasTitle: "Extra",
   totalTitle: "Prezzo totale dell'ordine:",
   notesTitle: "Note / Allergie",
+  hotelDesc:
+    "Fette di formaggio svizzero, morbido formaggio spalmabile e prosciutto di tacchino di alta qualità, uovo a scelta, frutta, bowl di granola, " +
+    "succo, burro, marmellata e miele, croissant al burro sfogliato, pane appena sfornato e una bevanda calda a scelta.",
+  contDesc:
+    "Bevanda calda a scelta e un croissant.",
+  matchaDesc:
+    "I matcha alla fragola, lampone, cocco e mango vengono serviti freddi. Il matcha latte può essere caldo o freddo. " +
+    "Tutte le bevande matcha includono latte a scelta e un biscotto.",
   labelRoom: "Numero di camera",
   labelGuest: "Nome dell'ospite",
   labelDelivery: "Orario di consegna preferito",
   labelSpecific: "Data e ora specifiche",
-  btnSubmit: "Invia ordine"
+  btnSubmit: "Invia ordine",
+  placeName: "Il tuo nome",
+  placeNotes: "Allergie, richieste speciali, senza zucchero, ecc.",
+  sending: "Invio dell'ordine in corso...",
+  success: "Ordine inviato con successo. Grazie!",
+  errorMissing: "Compila numero di camera, nome e orario di consegna.",
+  errorSpecific: "Seleziona una data e un orario specifici.",
+  errorSend: "Si è verificato un problema durante l'invio dell'ordine. Contatta la reception o THE CHOW.",
+  alertSuccess: "Il tuo ordine è stato inviato a THE CHOW. Grazie!",
+  alertError: "Errore durante l'invio dell'ordine. Contatta la reception."
+
 
 },
 
@@ -478,11 +550,29 @@ en: {
   extrasTitle: "Extras",
   totalTitle: "Prix total de la commande :",
   notesTitle: "Remarques / Allergies",
+  hotelDesc:
+    "Fines tranches de fromage suisse, fromage frais onctueux et jambon de dinde de qualité, œuf au choix, fruit, bol de granola, " +
+    "jus, beurre, confiture et miel, croissant au beurre feuilleté, pain fraîchement cuit et boisson chaude au choix.",
+  contDesc:
+    "Boisson chaude au choix et un croissant.",
+  matchaDesc:
+    "Les matchas à la fraise, framboise, coco et mangue sont servis froids. Le matcha latte peut être chaud ou froid. " +
+    "Toutes les boissons au matcha incluent un lait au choix et un cookie.",
   labelRoom: "Numéro de chambre",
   labelGuest: "Nom du client",
   labelDelivery: "Heure de livraison souhaitée",
   labelSpecific: "Date et heure spécifiques",
-  btnSubmit: "Envoyer la commande"
+  btnSubmit: "Envoyer la commande",
+  placeName: "Votre nom",
+  placeNotes: "Allergies, demandes particulières, sans sucre, etc.",
+  sending: "Envoi de la commande...",
+  success: "Commande envoyée avec succès. Merci !",
+  errorMissing: "Veuillez indiquer la chambre, le nom et l'heure de livraison.",
+  errorSpecific: "Veuillez choisir une date et une heure précises.",
+  errorSend: "Un problème est survenu lors de l'envoi de votre commande. Veuillez contacter la réception ou THE CHOW.",
+  alertSuccess: "Votre commande a été envoyée à THE CHOW. Merci !",
+  alertError: "Erreur lors de l'envoi de la commande. Veuillez contacter la réception."
+
 
 },
 
@@ -500,11 +590,29 @@ en: {
   extrasTitle: "إضافات",
   totalTitle: "إجمالي قيمة الطلب:",
   notesTitle: "ملاحظات / حساسية",
+  hotelDesc:
+    "شرائح من الجبن السويسري الفاخر، وجبن كريمي ناعم، ولحم ديك رومي مدخن عالي الجودة، مع بيض حسب الاختيار، وفاكهة، ووعاء غرانولا، " +
+    "وعصير، وزبدة، ومربى وعسل، وكرواسون بالزبدة، وخبز طازج ومشروب ساخن حسب الاختيار.",
+  contDesc:
+    "مشروب ساخن حسب الاختيار مع كرواسون.",
+  matchaDesc:
+    "مشروبات الماتشا بالفراولة والتوت وجوز الهند والمانجو تُقدَّم باردة. مشروب ماتشا لاتيه يمكن أن يكون ساخنًا أو باردًا. " +
+    "جميع مشروبات الماتشا تُقدَّم مع نوع الحليب الذي تختاره بالإضافة إلى كوكي.",
   labelRoom: "رقم الغرفة",
   labelGuest: "اسم النزيل",
   labelDelivery: "وقت التوصيل المفضل",
   labelSpecific: "التاريخ والوقت المحددان",
-  btnSubmit: "إرسال الطلب"
+  btnSubmit: "إرسال الطلب",
+  placeName: "اسمك",
+  placeNotes: "حساسيات غذائية، ملاحظات خاصة، بدون سكر، إلخ.",
+  sending: "جاري إرسال الطلب...",
+  success: "تم إرسال الطلب بنجاح. شكرًا لك!",
+  errorMissing: "يرجى إدخال رقم الغرفة والاسم ووقت التوصيل.",
+  errorSpecific: "يرجى اختيار تاريخ ووقت محددين.",
+  errorSend: "حدثت مشكلة أثناء إرسال الطلب. يرجى الاتصال بالاستقبال أو بـ THE CHOW.",
+  alertSuccess: "تم إرسال طلبك إلى THE CHOW. شكرًا لك!",
+  alertError: "حدث خطأ أثناء إرسال الطلب. يرجى الاتصال بالاستقبال."
+
 
 }
 
@@ -1107,6 +1215,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
