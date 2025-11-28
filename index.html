@@ -427,7 +427,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // --- LANGUAGE SETUP (title + subtitle) ---
       var translations = {
-en: {
+en: {errorService: "Please choose a time between 09:00 and 14:00.",
   title: "Breakfast Order",
   subtitle:
     "Breakfast will be delivered to your room<br/>" +
@@ -467,7 +467,7 @@ en: {
 
 
 
-        de: {
+        de: {  errorService: "Bitte wählen Sie eine Uhrzeit zwischen 09:00 und 14:00 Uhr.",
   title: "Frühstücksbestellung",
   subtitle:
     "Das Frühstück wird auf Ihr Zimmer geliefert<br/>" +
@@ -506,7 +506,7 @@ en: {
 
 },
 
-        es: {
+        es: {  errorService: "Seleccione una hora entre las 09:00 y las 14:00.",
   title: "Pedido de desayuno",
   subtitle:
     "El desayuno se entregará en su habitación<br/>" +
@@ -546,7 +546,7 @@ en: {
 
 },
 
-        it: {
+        it: {  errorService: "Scegli un orario tra le 09:00 e le 14:00.",
   title: "Ordine per la colazione",
   subtitle:
     "La colazione verrà consegnata in camera<br/>" +
@@ -586,7 +586,7 @@ en: {
 
 },
 
-        fr: {
+        fr: {  errorService: "Veuillez choisir une heure entre 09:00 et 14:00.",
   title: "Commande de petit-déjeuner",
   subtitle:
     "Le petit-déjeuner sera livré dans votre chambre<br/>" +
@@ -626,7 +626,7 @@ en: {
 
 },
 
-        ar: {
+        ar: {  errorService: "يرجى اختيار وقت بين 09:00 و 14:00.",
   title: "طلب الفطور",
   subtitle:
     "سيتم توصيل الفطور إلى غرفتك<br/>" +
@@ -1108,18 +1108,31 @@ if (matchaSelect.value === "Matcha Latte") {
       var specificDateTime = document.getElementById("specificDateTime");
 
       function setSpecificMin() {
-        if (!specificDateTime) return;
+  if (!specificDateTime) return;
 
-        // Now + 20 min
-        var now = new Date();
-        now.setMinutes(now.getMinutes() + 30);
-        now.setSeconds(0, 0);
-        now.setMilliseconds(0);
+  // Now + 30 min
+  var now = new Date();
+  now.setMinutes(now.getMinutes() + 30);
+  now.setSeconds(0, 0);
+  now.setMilliseconds(0);
 
-        // Convert to "local ISO" without timezone, e.g. "2025-11-28T09:30"
-        var local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-        specificDateTime.min = local.toISOString().slice(0, 16);
-      }
+  // Force into service window 09:00–14:00
+  var hour = now.getHours();
+
+  if (hour < 9) {
+    // today at 09:00
+    now.setHours(9, 0, 0, 0);
+  } else if (hour >= 14) {
+    // next day at 09:00
+    now.setDate(now.getDate() + 1);
+    now.setHours(9, 0, 0, 0);
+  }
+
+  // Convert to "local ISO" without timezone, e.g. "2025-11-28T09:30"
+  var local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+  specificDateTime.min = local.toISOString().slice(0, 16);
+}
+
 
       // Set an initial minimum on load
       setSpecificMin();
@@ -1211,6 +1224,16 @@ var t = window.currentTexts || translations.en;
         messageEl.className = "error";
         return;
       }
+    }
+	      // Service window: only between 09:00 and 14:00
+    var chosenHour = chosen.getHours();
+    var chosenMinute = chosen.getMinutes();
+    var chosenTime = chosenHour + chosenMinute / 60;
+
+    if (chosenTime < 9 || chosenTime >= 14) {
+      messageEl.textContent = t.errorService || "Please choose a time between 09:00 and 14:00.";
+      messageEl.className = "error";
+      return;
     }
   }
   // block orders with 0 € total
@@ -1381,6 +1404,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
