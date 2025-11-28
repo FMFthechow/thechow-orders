@@ -377,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // --- LANGUAGE SETUP (title + subtitle) ---
       var translations = {
-        en: {
+en: {
   title: "Breakfast Order",
   subtitle:
     "Breakfast will be delivered to your room<br/>" +
@@ -390,8 +390,14 @@ document.addEventListener("DOMContentLoaded", function () {
   matchaTitle: "Matcha & Cookie Set",
   extrasTitle: "Extras",
   totalTitle: "Total order price:",
-  notesTitle: "Notes / Allergies"
+  notesTitle: "Notes / Allergies",
+  labelRoom: "Room number",
+  labelGuest: "Guest name",
+  labelDelivery: "Preferred delivery time",
+  labelSpecific: "Specific date & time",
+  btnSubmit: "Submit order"
 },
+
 
         de: {
   title: "Frühstücksbestellung",
@@ -406,7 +412,12 @@ document.addEventListener("DOMContentLoaded", function () {
   matchaTitle: "Matcha & Keks Set",
   extrasTitle: "Extras",
   totalTitle: "Gesamtbestellpreis:",
-  notesTitle: "Hinweise / Allergien"
+  notesTitle: "Hinweise / Allergien",
+  labelRoom: "Zimmernummer",
+  labelGuest: "Name des Gastes",
+  labelDelivery: "Bevorzugte Lieferzeit",
+  labelSpecific: "Genaues Datum & Uhrzeit",
+  btnSubmit: "Bestellung senden"
 },
 
         es: {
@@ -422,7 +433,13 @@ document.addEventListener("DOMContentLoaded", function () {
   matchaTitle: "Set de matcha y galleta",
   extrasTitle: "Extras",
   totalTitle: "Precio total del pedido:",
-  notesTitle: "Notas / Alergias"
+  notesTitle: "Notas / Alergias",
+  labelRoom: "Número de habitación",
+  labelGuest: "Nombre del huésped",
+  labelDelivery: "Hora de entrega preferida",
+  labelSpecific: "Fecha y hora específicas",
+  btnSubmit: "Enviar pedido"
+
 },
 
         it: {
@@ -438,7 +455,13 @@ document.addEventListener("DOMContentLoaded", function () {
   matchaTitle: "Set matcha e biscotto",
   extrasTitle: "Extra",
   totalTitle: "Prezzo totale dell'ordine:",
-  notesTitle: "Note / Allergie"
+  notesTitle: "Note / Allergie",
+  labelRoom: "Numero di camera",
+  labelGuest: "Nome dell'ospite",
+  labelDelivery: "Orario di consegna preferito",
+  labelSpecific: "Data e ora specifiche",
+  btnSubmit: "Invia ordine"
+
 },
 
         fr: {
@@ -454,7 +477,13 @@ document.addEventListener("DOMContentLoaded", function () {
   matchaTitle: "Formule matcha & cookie",
   extrasTitle: "Extras",
   totalTitle: "Prix total de la commande :",
-  notesTitle: "Remarques / Allergies"
+  notesTitle: "Remarques / Allergies",
+  labelRoom: "Numéro de chambre",
+  labelGuest: "Nom du client",
+  labelDelivery: "Heure de livraison souhaitée",
+  labelSpecific: "Date et heure spécifiques",
+  btnSubmit: "Envoyer la commande"
+
 },
 
         ar: {
@@ -470,7 +499,13 @@ document.addEventListener("DOMContentLoaded", function () {
   matchaTitle: "مجموعة ماتشا مع كوكي",
   extrasTitle: "إضافات",
   totalTitle: "إجمالي قيمة الطلب:",
-  notesTitle: "ملاحظات / حساسية"
+  notesTitle: "ملاحظات / حساسية",
+  labelRoom: "رقم الغرفة",
+  labelGuest: "اسم النزيل",
+  labelDelivery: "وقت التوصيل المفضل",
+  labelSpecific: "التاريخ والوقت المحددان",
+  btnSubmit: "إرسال الطلب"
+
 }
 
       };
@@ -483,7 +518,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var t = translations[lang] || translations.en;
         titleEl.textContent = t.title;
         subtitleEl.innerHTML = t.subtitle;
-  // Section titles
+  // Labels
   document.getElementById("t_guest_info").textContent  = t.guestInfo;
   document.getElementById("t_hotel_title").textContent = t.hotelTitle;
   document.getElementById("t_cont_title").textContent  = t.contTitle;
@@ -491,6 +526,14 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("t_extras_title").textContent = t.extrasTitle;
   document.getElementById("t_total_title").textContent  = t.totalTitle;
   document.getElementById("t_notes_title").textContent  = t.notesTitle;
+
+  document.getElementById("t_label_room").childNodes[0].textContent = t.labelRoom + " ";
+  document.getElementById("t_label_guest").childNodes[0].textContent = t.labelGuest + " ";
+  document.getElementById("t_label_delivery").childNodes[0].textContent = t.labelDelivery + " ";
+  document.getElementById("t_label_specific").textContent = t.labelSpecific;
+
+  document.getElementById("t_btn_submit").textContent = t.btnSubmit;
+
 
         if (lang === "ar") {
           document.documentElement.lang = "ar";
@@ -1064,6 +1107,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
