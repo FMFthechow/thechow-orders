@@ -816,10 +816,25 @@ function handleDrinkChange(drinkSelect, milkSelect) {
       function createHotelCard(index) {
         var card = document.createElement("div");
         card.className = "card";
-        var header = document.createElement("div");
-        header.className = "card-header";
-        header.innerHTML = '<span>Hotel Breakfast Set #' + index + '</span><span class="pill">€19.90</span>';
-        card.appendChild(header);
+var header = document.createElement("div");
+header.className = "card-header";
+
+var titleSpan = document.createElement("span");
+titleSpan.textContent = "Extra #" + index;
+
+var removeBtn = document.createElement("button");
+removeBtn.type = "button";
+removeBtn.className = "btn-secondary";
+removeBtn.textContent = "– Remove";
+removeBtn.addEventListener("click", function () {
+  extrasContainer.removeChild(card);
+  updateTotals();
+});
+
+header.appendChild(titleSpan);
+header.appendChild(removeBtn);
+card.appendChild(header);
+
 
         var row = document.createElement("div");
         row.className = "field-row";
@@ -1261,6 +1276,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
