@@ -771,20 +771,22 @@ function applyLanguage(lang) {
       var addExtraBtn = document.getElementById("addExtraBtn");
       var orderTotalEl = document.getElementById("orderTotal");
 
-      function createSelect(options) {
-        var s = document.createElement("select");
-        var empty = document.createElement("option");
-        empty.value = "";
-        empty.textContent = "––";
-        s.appendChild(empty);
-        for (var i = 0; i < options.length; i++) {
-          var opt = document.createElement("option");
-          opt.value = options[i];
-          opt.textContent = options[i];
-          s.appendChild(opt);
-        }
-        return s;
-      }
+function createSelect(options, defaultValue) {
+  var s = document.createElement("select");
+  for (var i = 0; i < options.length; i++) {
+    var opt = document.createElement("option");
+    opt.value = options[i];
+    opt.textContent = options[i];
+    if (defaultValue && options[i] === defaultValue) {
+      opt.selected = true;
+    } else if (!defaultValue && i === 0) {
+      opt.selected = true;
+    }
+    s.appendChild(opt);
+  }
+  return s;
+}
+
 
       function wrapField(labelText, element) {
         var div = document.createElement("div");
@@ -796,15 +798,19 @@ function applyLanguage(lang) {
         return div;
       }
 
-      function handleDrinkChange(drinkSelect, milkSelect) {
-        var drink = drinkSelect.value;
-        if (milkDrinks.indexOf(drink) !== -1) {
-          milkSelect.disabled = false;
-        } else {
-          milkSelect.disabled = true;
-          milkSelect.value = "";
-        }
-      }
+function handleDrinkChange(drinkSelect, milkSelect) {
+  var drink = drinkSelect.value;
+  if (milkDrinks.indexOf(drink) !== -1) {
+    milkSelect.disabled = false;
+    if (!milkSelect.value) {
+      milkSelect.value = "Regular";
+    }
+  } else {
+    milkSelect.disabled = true;
+    milkSelect.value = "";
+  }
+}
+
 
       // --- HOTEL SETS ---
       function createHotelCard(index) {
@@ -818,14 +824,15 @@ function applyLanguage(lang) {
         var row = document.createElement("div");
         row.className = "field-row";
 
-        var eggSelect = createSelect(eggOptions);
-        eggSelect.id = "hotelEgg" + index;
+        var eggSelect = createSelect(eggOptions, "Boiled Egg");
+eggSelect.id = "hotelEgg" + index;
 
-        var drinkSelect = createSelect(hotDrinks);
-        drinkSelect.id = "hotelDrink" + index;
+var drinkSelect = createSelect(hotDrinks, "Cappuccino");
+drinkSelect.id = "hotelDrink" + index;
 
-        var milkSelect = createSelect(milkOptions);
-        milkSelect.id = "hotelMilk" + index;
+var milkSelect = createSelect(milkOptions, "Regular");
+milkSelect.id = "hotelMilk" + index;
+
 
         drinkSelect.addEventListener("change", function () {
           handleDrinkChange(drinkSelect, milkSelect);
@@ -862,10 +869,10 @@ function applyLanguage(lang) {
         var row = document.createElement("div");
         row.className = "field-row";
 
-        var drinkSelect = createSelect(hotDrinks);
+        var drinkSelect = createSelect(hotDrinks, "Cappuccino");
         drinkSelect.id = "contDrink" + index;
 
-        var milkSelect = createSelect(milkOptions);
+        var milkSelect = createSelect(milkOptions, "Regular");
         milkSelect.id = "contMilk" + index;
 
         drinkSelect.addEventListener("change", function () {
@@ -873,7 +880,7 @@ function applyLanguage(lang) {
         });
         handleDrinkChange(drinkSelect, milkSelect);
 
-        var croissantSelect = createSelect(croissantOptions);
+        var croissantSelect = createSelect(croissantOptions, "Butter Croissant");
         croissantSelect.id = "contCroissant" + index;
 
         row.appendChild(wrapField("Hot drink", drinkSelect));
@@ -906,24 +913,28 @@ function applyLanguage(lang) {
         var row1 = document.createElement("div");
         row1.className = "field-row";
 
-        var matchaSelect = createSelect(matchaOptions);
+        var matchaSelect = createSelect(matchaOptions, "Strawberry Matcha (cold)");
         matchaSelect.id = "matchaType" + index;
 
-        var tempSelect = createSelect(["Warm", "Cold"]);
+        var tempSelect = createSelect(["Warm", "Cold"], "Cold");
         tempSelect.id = "matchaTemp" + index;
 
-        var milkSelect = createSelect(milkOptions);
+        var milkSelect = createSelect(milkOptions, "Regular");
         milkSelect.id = "matchaMilk" + index;
 
         var tempField = wrapField("Temperature (Matcha Latte only)", tempSelect);
 
         function syncTempVisibility() {
-          if (matchaSelect.value === "Matcha Latte") {
-            tempField.style.display = "block";
-          } else {
-            tempField.style.display = "none";
-            tempSelect.value = "";
-          }
+if (matchaSelect.value === "Matcha Latte") {
+  tempField.style.display = "block";
+  if (!tempSelect.value) {
+    tempSelect.value = "Cold"; // default
+  }
+} else {
+  tempField.style.display = "none";
+  tempSelect.value = "";
+}
+
         }
         matchaSelect.addEventListener("change", syncTempVisibility);
         syncTempVisibility();
@@ -970,24 +981,23 @@ function applyLanguage(lang) {
         var row = document.createElement("div");
         row.className = "field-row";
 
-        var itemSelect = createSelect(extrasList);
-        itemSelect.id = "extraItem" + index;
+        var itemSelect = createSelect(extrasList, extrasList[0]);
+itemSelect.id = "extraItem" + index;
 
-        var qtySelect = document.createElement("select");
-        qtySelect.id = "extraQty" + index;
-        var optEmpty = document.createElement("option");
-        optEmpty.value = "";
-        optEmpty.textContent = "–";
-        qtySelect.appendChild(optEmpty);
-        for (var q = 1; q <= 10; q++) {
-          var optQ = document.createElement("option");
-          optQ.value = String(q);
-          optQ.textContent = String(q);
-          qtySelect.appendChild(optQ);
-        }
+var qtySelect = document.createElement("select");
+qtySelect.id = "extraQty" + index;
+for (var q = 1; q <= 10; q++) {
+  var optQ = document.createElement("option");
+  optQ.value = String(q);
+  optQ.textContent = String(q);
+  if (q === 1) optQ.selected = true; // default quantity = 1
+  qtySelect.appendChild(optQ);
+}
 
-        var eggSelect = createSelect(eggOptions);
-        eggSelect.id = "extraEgg" + index;
+
+        var eggSelect = createSelect(eggOptions, "Boiled Egg");
+eggSelect.id = "extraEgg" + index;
+
         var eggField = wrapField("Egg type (for additional egg)", eggSelect);
 
         function syncEggVisibility() {
@@ -1103,58 +1113,71 @@ var t = window.currentTexts || translations.en;
   ) + "\n\n";
 
   // ---------- HOTEL ----------
-  var hotelQty = parseInt(hotelQtySelect.value, 10) || 0;
-  var hotelCount = 0;
-  for (var i = 1; i <= hotelQty; i++) {
-    var egg = (document.getElementById("hotelEgg" + i) || {}).value || "";
-    var drink = (document.getElementById("hotelDrink" + i) || {}).value || "";
-    var milk = (document.getElementById("hotelMilk" + i) || {}).value || "";
-    if (egg || drink || milk) {
-      hotelCount++;
-      if (hotelCount === 1) text += "Hotel Breakfast Menu:\n";
-      text += "  Set #" + i + ": Egg: " + (egg || "-") +
-              ", Drink: " + (drink || "-") +
-              ", Milk: " + (milk || "-") + "\n";
+var hotelQty = parseInt(hotelQtySelect.value, 10) || 0;
+var hotelCount = 0;
+for (var i = 1; i <= hotelQty; i++) {
+  var egg = (document.getElementById("hotelEgg" + i) || {}).value || "";
+  var drink = (document.getElementById("hotelDrink" + i) || {}).value || "";
+  var milk = (document.getElementById("hotelMilk" + i) || {}).value || "";
+
+  if (egg || drink || milk) {
+    hotelCount++;
+    if (hotelCount === 1) text += "Hotel Breakfast Menu:\n";
+
+    text += "  Set #" + i + ": Egg: " + egg + ", Drink: " + drink;
+    if (drink && milkDrinks.indexOf(drink) !== -1 && milk) {
+      text += ", Milk: " + milk;
     }
+    text += "\n";
   }
+}
+
   if (hotelCount > 0) text += "\n";
 
   // ---------- CONTINENTAL ----------
   var contQty = parseInt(contQtySelect.value, 10) || 0;
-  var contCount = 0;
-  for (var j = 1; j <= contQty; j++) {
-    var cd = (document.getElementById("contDrink" + j) || {}).value || "";
-    var cm = (document.getElementById("contMilk" + j) || {}).value || "";
-    var cc = (document.getElementById("contCroissant" + j) || {}).value || "";
-    if (cd || cm || cc) {
-      contCount++;
-      if (contCount === 1) text += "Continental Light Breakfast:\n";
-      text += "  Set #" + j + ": Drink: " + (cd || "-") +
-              ", Milk: " + (cm || "-") +
-              ", Croissant: " + (cc || "-") + "\n";
+var contCount = 0;
+for (var j = 1; j <= contQty; j++) {
+  var cd = (document.getElementById("contDrink" + j) || {}).value || "";
+  var cm = (document.getElementById("contMilk" + j) || {}).value || "";
+  var cc = (document.getElementById("contCroissant" + j) || {}).value || "";
+
+  if (cd || cm || cc) {
+    contCount++;
+    if (contCount === 1) text += "Continental Light Breakfast:\n";
+
+    text += "  Set #" + j + ": Drink: " + cd;
+    if (cd && milkDrinks.indexOf(cd) !== -1 && cm) {
+      text += ", Milk: " + cm;
     }
+    text += ", Croissant: " + cc + "\n";
   }
+}
+
   if (contCount > 0) text += "\n";
 
   // ---------- MATCHA & COOKIE ----------
   var matchaQty = parseInt(matchaQtySelect.value, 10) || 0;
-  var matchaCount = 0;
-  for (var k = 1; k <= matchaQty; k++) {
-    var type = (document.getElementById("matchaType" + k) || {}).value || "";
-    var temp = (document.getElementById("matchaTemp" + k) || {}).value || "";
-    var mmilk = (document.getElementById("matchaMilk" + k) || {}).value || "";
-    var cookie = (document.getElementById("matchaCookie" + k) || {}).value || "";
-    if (type || mmilk || cookie) {
-      matchaCount++;
-      if (matchaCount === 1) text += "Matcha & Cookie:\n";
-      text += "  Set #" + k + ": Matcha: " + (type || "-");
-      if (type === "Matcha Latte") {
-        text += " (" + (temp || "-") + ")";
-      }
-      text += ", Milk: " + (mmilk || "-") +
-              ", Cookie: " + (cookie || "-") + "\n";
+var matchaCount = 0;
+for (var k = 1; k <= matchaQty; k++) {
+  var type = (document.getElementById("matchaType" + k) || {}).value || "";
+  var temp = (document.getElementById("matchaTemp" + k) || {}).value || "";
+  var mmilk = (document.getElementById("matchaMilk" + k) || {}).value || "";
+  var cookie = (document.getElementById("matchaCookie" + k) || {}).value || "";
+
+  if (type || mmilk || cookie) {
+    matchaCount++;
+    if (matchaCount === 1) text += "Matcha & Cookie:\n";
+
+    text += "  Set #" + k + ": Matcha: " + type;
+    if (type === "Matcha Latte" && temp) {
+      text += " (" + temp + ")";
     }
+    text += ", Milk: " + mmilk +
+            ", Cookie: " + cookie + "\n";
   }
+}
+
   if (matchaCount > 0) text += "\n";
 
   // ---------- EXTRAS ----------
@@ -1166,14 +1189,16 @@ var t = window.currentTexts || translations.en;
     var qty  = (document.getElementById("extraQty" + idx) || {}).value || "";
     var eEgg = (document.getElementById("extraEgg" + idx) || {}).value || "";
     if (item && qty) {
-      extraCount++;
-      if (extraCount === 1) text += "Extras:\n";
-      text += "  " + extraCount + ". " + item + " × " + qty;
-      if (item.indexOf("Additional Egg") === 0) {
-        text += " – Egg type: " + (eEgg || "-");
-      }
-      text += "\n";
-    }
+  extraCount++;
+  if (extraCount === 1) text += "Extras:\n";
+  text += "  " + extraCount + ". " + item + " × " + qty;
+  if (item.indexOf("Additional Egg") === 0) {
+    var eggType = eEgg || "Boiled Egg";
+    text += " – Egg type: " + eggType;
+  }
+  text += "\n";
+}
+
   }
   if (extraCount > 0) text += "\n";
 
@@ -1236,6 +1261,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
