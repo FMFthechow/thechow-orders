@@ -1069,15 +1069,42 @@ if (matchaSelect.value === "Matcha Latte") {
       });
 
       // --- DELIVERY OPTION TOGGLE ---
-      var deliveryOption = document.getElementById("deliveryOption");
+            var deliveryOption = document.getElementById("deliveryOption");
       var specificTimeField = document.getElementById("specificTimeField");
+      var specificDateTime = document.getElementById("specificDateTime");
+
+      function setSpecificMin() {
+        if (!specificDateTime) return;
+
+        // Now + 20 min
+        var now = new Date();
+        now.setMinutes(now.getMinutes() + 30);
+        now.setSeconds(0, 0);
+        now.setMilliseconds(0);
+
+        // Convert to "local ISO" without timezone, e.g. "2025-11-28T09:30"
+        var local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+        specificDateTime.min = local.toISOString().slice(0, 16);
+      }
+
+      // Set an initial minimum on load
+      setSpecificMin();
+
       deliveryOption.addEventListener("change", function () {
         if (deliveryOption.value === "specific") {
           specificTimeField.style.display = "block";
+          // Refresh min when user chooses this option
+          setSpecificMin();
+
+          // If there is already a value but it's now invalid, clear it
+          if (specificDateTime.value && specificDateTime.value < specificDateTime.min) {
+            specificDateTime.value = "";
+          }
         } else {
           specificTimeField.style.display = "none";
         }
       });
+
 
       // --- TOTALS ---
       function updateTotals() {
@@ -1126,16 +1153,32 @@ var t = window.currentTexts || translations.en;
   var deliveryOpt = deliveryOption.value;
   var deliveryTime = document.getElementById("specificDateTime").value;
 
-  if (!room || !guest || !deliveryOpt) {
+    if (!room || !guest || !deliveryOpt) {
     messageEl.textContent = t.errorMissing;
     messageEl.className = "error";
     return;
   }
-  if (deliveryOpt === "specific" && !deliveryTime) {
-    messageEl.textContent = t.errorSpecific;
-    messageEl.className = "error";
-    return;
+
+  if (deliveryOpt === "specific") {
+    if (!deliveryTime) {
+      messageEl.textContent = t.errorSpecific;
+      messageEl.className = "error";
+      return;
+    }
+
+    // Extra safety: ensure chosen time >= min (now + 20 min)
+    if (specificDateTime && specificDateTime.min) {
+      var chosen = new Date(deliveryTime);
+      var minAllowed = new Date(specificDateTime.min);
+
+      if (chosen < minAllowed) {
+        messageEl.textContent = t.errorSpecific; // or define a more precise message in translations
+        messageEl.className = "error";
+        return;
+      }
+    }
   }
+
 
   var text = "THE CHOW – Hotel Breakfast Order\n\n";
   text += "Room: " + room + "\n";
@@ -1297,6 +1340,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
