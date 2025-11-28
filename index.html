@@ -988,31 +988,48 @@ if (matchaSelect.value === "Matcha Latte") {
         card.className = "card extraCard";
         card.setAttribute("data-index", String(index));
 
+        // ----- header with remove button -----
         var header = document.createElement("div");
         header.className = "card-header";
-        header.innerHTML = '<span>Extra #' + index + '</span><span class="pill">optional</span>';
+
+        var titleSpan = document.createElement("span");
+        titleSpan.textContent = "Extra #" + index;
+
+        var removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "btn-secondary";
+        removeBtn.textContent = "– Remove";
+        removeBtn.addEventListener("click", function () {
+          extrasContainer.removeChild(card);
+          updateTotals();
+        });
+
+        header.appendChild(titleSpan);
+        header.appendChild(removeBtn);
         card.appendChild(header);
 
+        // ----- content row -----
         var row = document.createElement("div");
         row.className = "field-row";
 
+        // default extra item = first in list
         var itemSelect = createSelect(extrasList, extrasList[0]);
-itemSelect.id = "extraItem" + index;
+        itemSelect.id = "extraItem" + index;
 
-var qtySelect = document.createElement("select");
-qtySelect.id = "extraQty" + index;
-for (var q = 1; q <= 10; q++) {
-  var optQ = document.createElement("option");
-  optQ.value = String(q);
-  optQ.textContent = String(q);
-  if (q === 1) optQ.selected = true; // default quantity = 1
-  qtySelect.appendChild(optQ);
-}
+        // quantity: 1..10, default 1
+        var qtySelect = document.createElement("select");
+        qtySelect.id = "extraQty" + index;
+        for (var q = 1; q <= 10; q++) {
+          var optQ = document.createElement("option");
+          optQ.value = String(q);
+          optQ.textContent = String(q);
+          if (q === 1) optQ.selected = true;
+          qtySelect.appendChild(optQ);
+        }
 
-
+        // egg type (only used when "Additional Egg" is chosen)
         var eggSelect = createSelect(eggOptions, "Boiled Egg");
-eggSelect.id = "extraEgg" + index;
-
+        eggSelect.id = "extraEgg" + index;
         var eggField = wrapField("Egg type (for additional egg)", eggSelect);
 
         function syncEggVisibility() {
@@ -1021,16 +1038,19 @@ eggSelect.id = "extraEgg" + index;
             eggField.style.display = "block";
           } else {
             eggField.style.display = "none";
-            eggSelect.value = "";
+            eggSelect.value = "Boiled Egg";
           }
         }
+
         itemSelect.addEventListener("change", function () {
           syncEggVisibility();
           updateTotals();
         });
+
         qtySelect.addEventListener("change", function () {
           updateTotals();
         });
+
         syncEggVisibility();
 
         row.appendChild(wrapField("Extra item", itemSelect));
@@ -1040,6 +1060,7 @@ eggSelect.id = "extraEgg" + index;
         card.appendChild(row);
         return card;
       }
+
 
       addExtraBtn.addEventListener("click", function () {
         extraCounter += 1;
@@ -1276,6 +1297,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
