@@ -4,10 +4,35 @@
   <meta charset="UTF-8" />
   <title>THE CHOW – Breakfast Order</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-	<img src="the-chow-logo.png" />
-<img src="hotel-logo.png" />
-
   <style>
+.top-logos {
+  width: 100%;
+  max-width: 900px; /* same width as your .page probably */
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 12px;
+}
+
+.logo {
+  height: 56px; /* change if too big/small */
+  object-fit: contain;
+}
+
+/* optional: make THE CHOW a bit bigger */
+.chow-logo {
+  height: 64px;
+}
+
+/* optional: make hotel logo slightly smaller */
+.hotel-logo {
+  height: 48px;
+}
+
+
+
+	  
     :root {
       --bg: #f3f3f3;
       --card: #ffffff;
@@ -15,28 +40,9 @@
       --border: #dddddd;
       --disabled: #e6e6e6;
     }
-.top-logos {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 8px 20px;
-}
 
-.logo {
-  height: 48px; /* adjust size here */
-  object-fit: contain;
-}
 
-.chow-logo {
-  /* optional custom styling */
-}
-
-.hotel-logo {
-  /* optional custom styling */
-}
-
-    * {
+  {
       box-sizing: border-box;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -48,11 +54,6 @@
       justify-content: center;
       padding: 16px;
     }
-<div class="top-logos">
-  <img src="the-chow-logo.png" alt="THE CHOW Logo" class="logo chow-logo" />
-  <img src="hotel-logo.png" alt="Hotel Logo" class="logo hotel-logo" />
-</div>
-
     .page {
       max-width: 900px;
       width: 100%;
@@ -247,6 +248,10 @@
   </style>
 </head>
 <body>
+	<div class="top-logos">
+  <img src="the-chow-logo.png" alt="THE CHOW Logo" class="logo chow-logo" />
+  <img src="hotel-logo.png" alt="Hotel Logo" class="logo hotel-logo" />
+</div>
   <div class="page">
     <div class="lang-switch">
       <span>Language:</span>
@@ -1361,6 +1366,7 @@ if (data.status === "ok") {
   </script>
 </body>
 </html>
+
 
 
 
